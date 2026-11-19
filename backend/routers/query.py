@@ -78,7 +78,7 @@ async def natural_language_query(req: QueryRequest):
         extra={"stage": "LLM", "req_id": req_id},
     )
     log.info(
-        f"Calling Groq  model={cfg.GROQ_MODEL}  max_tokens=1500  temperature=0.1",
+        f"Calling Groq  model={cfg.GROQ_MODEL}  max_tokens={cfg.GROQ_MAX_TOKENS}  temperature=0.1",
         extra={"stage": "LLM", "req_id": req_id},
     )
 
@@ -87,8 +87,9 @@ async def natural_language_query(req: QueryRequest):
         response = await cfg.groq_client.chat.completions.create(
             model=cfg.GROQ_MODEL,
             messages=[{"role": "system", "content": system}] + messages,
-            max_tokens=1500,
+            max_tokens=cfg.GROQ_MAX_TOKENS,
             temperature=0.1,
+            extra_body=cfg.GROQ_EXTRA_BODY,
         )
     except Exception as exc:
         log.error(
@@ -199,7 +200,7 @@ async def stream_query(req: QueryRequest):
             )
 
     log.info(
-        f"Calling Groq (stream)  model={cfg.GROQ_MODEL}  max_tokens=1500  temperature=0.1",
+        f"Calling Groq (stream)  model={cfg.GROQ_MODEL}  max_tokens={cfg.GROQ_MAX_TOKENS}  temperature=0.1",
         extra={"stage": "LLM", "req_id": req_id},
     )
 
@@ -213,9 +214,10 @@ async def stream_query(req: QueryRequest):
             async with await cfg.groq_client.chat.completions.create(
                 model=cfg.GROQ_MODEL,
                 messages=[{"role": "system", "content": system}] + messages,
-                max_tokens=1500,
+                max_tokens=cfg.GROQ_MAX_TOKENS,
                 temperature=0.1,
                 stream=True,
+                extra_body=cfg.GROQ_EXTRA_BODY,
             ) as stream:
                 log.info("Groq stream opened — receiving tokens...", extra=stream_extra)
                 first_token_logged = False

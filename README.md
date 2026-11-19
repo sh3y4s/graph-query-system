@@ -43,7 +43,7 @@ The system ingests structured O2C data, builds a directed graph of business enti
 | Database | Supabase (PostgreSQL) | Managed Postgres with instant REST API, row-level security, and easy local dev via Docker |
 | Graph engine | NetworkX (Python) | Native directed graph support, rich traversal APIs, loads entirely in-memory for sub-ms query latency |
 | Backend API | FastAPI (Python) | Async-first, automatic OpenAPI docs, streaming response support via StreamingResponse |
-| LLM | Groq — llama-3.3-70b-versatile | 128k context window (handles large graph dumps), strongest structured reasoning on Groq free tier |
+| LLM | Groq — openai/gpt-oss-120b | 131k context window (handles large graph dumps), strong reasoning over structured context; reasoning effort set to low for fast replies |
 | Frontend framework | Next.js 14 + React | App router, server components, zero-config deployment |
 | Graph visualization | react-force-graph-2d | Force-directed layout, canvas rendering for performance at 300+ nodes, custom node draw callbacks |
 

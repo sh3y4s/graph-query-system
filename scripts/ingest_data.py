@@ -1,7 +1,10 @@
 import os
 import json
 import pandas as pd
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
+
+load_dotenv()
 
 RAW_DATA_PATH = "../raw-data"
 
@@ -15,7 +18,8 @@ def load_jsonl_folder(folder_path):
     return pd.DataFrame(records)
 
 # TEST: load one dataset
-DB_URL = "postgresql://postgres:Shreyas%40123098@db.mitekbfjinnblwzwswsd.supabase.co:5432/postgres"
+# Postgres connection string, e.g. postgresql://postgres:<password>@db.<project>.supabase.co:5432/postgres
+DB_URL = os.environ["DATABASE_URL"]
 engine = create_engine(DB_URL)
 for folder_name in os.listdir(RAW_DATA_PATH):
     folder_path = os.path.join(RAW_DATA_PATH, folder_name)

@@ -13,11 +13,15 @@ SUPABASE_KEY = os.environ["SUPABASE_KEY"]
 GROQ_API_KEY = os.environ["GROQ_API_KEY"]
 
 # ── Groq model ────────────────────────────────────────────────────
-# llama-3.3-70b-versatile is the best option for this project:
-# - 128k context window (handles large graph data dumps)
-# - Strongest structured reasoning on Groq
-# - Better than Mixtral/Gemma for JSON-grounded Q&A
-GROQ_MODEL = "llama-3.3-70b-versatile"
+# openai/gpt-oss-120b (replaces the retired llama-3.3-70b-versatile):
+# - 131k context window (handles large graph data dumps)
+# - Reasoning model: its hidden reasoning tokens count toward max_tokens,
+#   so the token budget is higher than for a non-reasoning model.
+GROQ_MODEL = "openai/gpt-oss-120b"
+GROQ_MAX_TOKENS = 4096
+# "low" keeps answers fast; raise to "medium"/"high" for harder questions.
+# Sent via extra_body because the pinned groq SDK has no reasoning_effort argument.
+GROQ_EXTRA_BODY = {"reasoning_effort": "low"}
 
 groq_client = AsyncGroq(api_key=GROQ_API_KEY)
 
